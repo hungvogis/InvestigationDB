@@ -1,2 +1,2 @@
 # seadb
-ứng dụng cơ sở dữ liệu biển cấp địa phương
+Application for maneger seadb in provinces
