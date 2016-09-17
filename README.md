@@ -1,2 +1,2 @@
 # seadb
-Application for maneger seadb in provinces
+Application for manager seadb in provinces
