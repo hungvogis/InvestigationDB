@@ -1,0 +1,417 @@
+﻿.tenApp {
+    position: absolute;
+    width: 345px;
+    height: 35px;
+    top: 8px;
+    left: 8px;
+    padding-top: 3px;
+    padding-left: 13px;
+    background-color: white;
+    z-index: 1;
+    /*display: none;*/
+}
+
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 25px;
+    z-index: 2;
+}
+
+#searchnhanh {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    z-index: 30;
+    display: block;
+}
+
+#xyLocation {
+    position: absolute;
+    bottom: 0px;
+    right: 360px;
+    z-index: 30;
+    display:  block;
+    color: black;
+}
+
+.scalebar_bottom-left {
+    left: 450px !important;
+    bottom: 12px !important;
+}
+/*Diều chỉnh menu search*/
+.arcgisSearch .searchBtn {
+    padding: 5px 4px 4px 6px;
+    opacity: 1;
+}
+
+.arcgisSearch .searchGroup .searchInput {
+    height: 17px;
+    font-size: 13px;
+}
+
+.arcgisSearch .searchClear {
+    height: 28px;
+}
+
+.arcgisSearch .searchMenu {
+    position: initial;
+    font-size: 13px;
+}
+
+.arcgisSearch .hasButtonMode.searchExpanded.hasMultipleSources .searchExpandContainer,
+.arcgisSearch .hasButtonMode.hasMultipleSources .searchAnimate {
+    /*width: 150px;*/
+}
+/*Diều chỉnh menu search*/
+
+#HomeButton {
+    position: absolute;
+    bottom: 105px;
+    right: 16px;
+    z-index: 30; /*cung voi zoom*/
+    opacity: 0.4;
+    background-color: white;
+}
+
+/*Điều chỉnh vị trí và làm mờ thanh zoom mặc định trên Map*/ 
+.esriSimpleSliderBR {
+    bottom: 35px !important;
+    right: 15px !important;
+    opacity: 0.4;
+    /*background-color: grey;*/
+    background-color: #fff;
+}
+
+.esriOverviewMap {
+    position: absolute;
+    z-index: 30;
+}
+
+/*button gọi menu chính*/
+.mainMenubtn {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    z-index: 2;
+    color: green;
+}
+
+/*menu chính*/
+.menuChinh {
+    height: auto;
+    width: 0;
+    position: fixed;
+    z-index: 31; /* zoom của esri là 30 */
+    top: 1px;
+    left: 1px;
+    bottom: 1px;
+    background-color: #fff;
+    overflow: auto;
+    transition: 0.5s; /* 0.5 second hiệu ứng chuyển */
+    opacity: 1;
+}
+/*Danh mục của menu chính*/
+.listMenu {
+    list-style-type: none;
+    text-decoration: none;
+    text-align: left;
+    padding: 8px 8px 8px 8px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    color: black;
+    transition: 0.3s;
+}
+    .listMenu > li > hr {
+        margin: 0 10px 0 10px;
+        border-style: solid;
+        border-width: .5px;
+        border-color:  #ccc;
+    }
+
+.closebtn {
+    float: right;
+    margin: 23px 13px 0 0;
+    font-size: 14px;
+    color: gray;
+}
+.closebtn:focus {
+    color: gray;
+}
+
+a:link {
+    text-decoration: none;
+    /*color: #fff;*/
+}
+/*Điều chỉnh hiển thị mặc định các liên kết a không cho gạch chân*/
+.nav > li > a:focus, .nav > li > a:hover {
+    text-decoration: none;
+}
+
+/*Điều hiển thị tên của các Tab trong tìm kiếm nâng cao*/
+.nav-tabs > li {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+    .nav-tabs > li > a {
+        left: 10px;
+        padding: 5px;
+        min-width: 90px;
+        text-align: center;
+    }
+
+.user {
+    float: left;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-size: 15px;
+    font-weight: 800;
+    color: #931717;
+    padding: 7px
+}
+/* Vị trí hiển thị của sub menu so với tiêu đề và trên menu chính*/
+.subMenu {
+    display: none;
+    overflow: hidden;
+    height: 100%;
+}
+
+/*Tiêu đề của các sub menu*/
+.tieudeSubMenu {
+    float: left;
+    background-color: darkgreen;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    width: 100%;
+    color: #fff;
+    height: 35px;
+    border: 1px solid #73AD21;
+}
+
+    .tieudeSubMenu h5 {
+        margin-top: 8px;
+        margin-left: 80px;
+        font-size: 15px;
+    }
+
+    .tieudeSubMenu a {
+        color: #ccc;
+    }
+/*Phím trở về menu chính trên các sub menu*/
+.backbtn {
+    float: left;
+    margin: 7px;
+    font-size: 13px;
+    color: #fff;
+}
+/*Phím tắt trên các sub menu, tắt muôn menu chính*/
+.closebtn2 {
+    float: right;
+    margin: 9px;
+    color: #fff;
+    font-size: 13px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+    .closebtn2:focus closebtn2:hover {
+        color: #fff;
+    }
+/* Quy định vị trí và thành phần hiển thị trong các sub menu*/
+.noidungSubMenu {
+    height: calc(100% - 35px);
+    background-color: #fff;
+    border: 1px solid darkgreen;
+    overflow: auto;
+    padding: 3px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-size: 13px;
+    color: black;
+}
+
+#vungEdit {
+   width: unset;
+   text-align:left;
+}
+
+/*tool Edit và bảng chọn lớp vẽ*/
+/*.templatePicker {
+}
+
+.templatePicker .grid .groupLabel {
+}
+
+.esriEditor {
+
+}*/
+
+.dijitStretch {
+    width:auto;
+    /*background-repeat: no-repeat!important;
+    white-space: unset!important;*/
+}
+
+.dijitButtonNode{
+    width:100%;
+}
+
+
+/*Dieu chinh nội dung của các tab trong sub menu tìm kiếm khac voi quy dinh chung cua subMenu*/
+.subSearch {
+    padding: 5px 0 10px 5px;
+}
+
+
+
+/*tat text zoom to tren popup thông tin*/
+.zoomTo {
+    display: none !important;
+}
+
+/*thay đổi listlayer mặc định để quản lý các lớp*/
+.esriLayerList .esriContainer {
+  background-color:  white!important/*#f8f8f8*/;
+  color: #6e6e6e;
+  border-top: 0px solid #ccc!important;
+  border-bottom: 1px solid #ccc!important;
+}
+.esriLayerList .esriTitleContainer {
+  margin: 0;
+  border-top: 1px solid #ccc!important;
+}
+
+.esriLayerList .esriTitle {
+  font-size: 13px!important;
+  font-family: 'sans-serif', Tahoma, Geneva, Verdana, sans-serif!important;
+}
+/*HẾT 888888888888888 thay đổi listlayer mặc định để quản lý các lớp*/
+
+
+label {
+    font-weight: 500 !important;
+}
+
+
+/*Cho hiện tooltip của tool ve Graghic*/
+.tooltip {
+    opacity: 1;
+    z-index: 2;
+}
+/*cho bảng hiển thị kết quả tìm kiém*/
+table {
+    font-family: arial, sans-serif;
+    width: 100%;
+}
+/*Điều chỉnh mặc định chiều cao của tab cho bảng thuộc tính */
+.esri-feature-table {
+    font-family: verdana;
+    font-size: 12px;
+    height: 100%;
+    width: 100%;
+}
+.esri-feature-table-dialog .esri-feature-attachments {
+  height: 300px !important;
+  width: 350px !important;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+/*Menu dropdown tìm kiếm theo tương quan*/
+.dropdown-menu {
+    font-size: 13px;
+    left: -43px;
+    min-width: 120px;
+}
+
+/*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa panel của Layer Manager aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*/
+.groupLayer {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 5px;
+    width: 100%;
+    border-bottom-width: 1px;
+    text-align: left;
+    outline: none;
+    font-size: 14px;
+    font-weight:  500;
+    transition: 0.4s;
+}
+
+    .groupLayeractive, .groupLayer:hover {
+        background-color: #ccc;
+    }
+
+.groupLayer:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    vertical-align:central;
+    margin-left: 5px;
+}
+
+.groupLayeractive:after {
+    content: "\2212";
+}
+
+.panelLayer {
+    padding: 0 2px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+/*hết aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa panel của Layer Manager aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*/
+
+/*Thay đổi hiển thị basemap*/ 
+.esriBasemapGalleryThumbnail {
+  height: 67px;
+  width: 130px !important;
+  border: 1px solid #fff;
+  margin: 1px;
+  -moz-box-shadow: 0px 0px 7px #000;
+  -webkit-box-shadow: 0px 0px 7px #000;
+  box-shadow: 0px 0px 7px #000;
+}
+.esriBasemapGalleryNode {
+  float: left;
+  margin: 10px 20px 10px 20px;
+  width: 200px !important;
+  margin:5px 10px 0 75px!important;
+}
+.esriBasemapGalleryLabelContainer {
+  background-color: transparent;
+  text-align: left!important;
+  width: 100%;
+  height: 2.5em;
+  overflow: hidden;
+  display: block;
+}
+
+/*Cho bookmark*/
+#bookmark_btn {
+    position: absolute;
+    top: 485px;
+    left: 21px;
+    z-index: 2;
+    opacity: 0.7;
+}
+
+#bookmark-container {
+	    display:none;
+        position: absolute;
+		height: 415px;
+		overflow: auto;
+        top: 100px;
+        left: 53px;
+        padding: 0.3rem;
+        background: #ffffff;
+        border-radius: 4px;
+        border: 1px solid #eeeeee;
+      }
+
