@@ -1,0 +1,453 @@
+﻿
+@{
+    ViewData["Title"] = "VODIC";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    @*Viewport thân thiện với mobile*@
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    @*<meta http-equiv="X-UA-Compatible" content="IE=7,IE=9" />*@
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    @*Viewport thân thiện với mobile*@
+    @*Cho icon của phần mềm*@
+    <link href="~/images/favicon.gif" rel="shortcut icon" type="image/x-icon">
+    <link href="~/images/favicon.gif" rel="icon" type="image/x-icon">
+    @*Cho icon của phần mềm*@
+
+    <title>@ViewData["Title"] - Bản đồ điều tra cơ bản</title>
+    <!-- Nguồn tài nguyên ONLINE cho các api GIS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/themes/calcite/dijit/calcite.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/themes/calcite/esri/esri.css">
+
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23/dijit/themes/claro/claro.css">
+
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" />
+
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23compact/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23compact/esri/css/esri.css" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script type="text/javascript">
+        dojoConfig = {
+            locale: "vi",
+            parseOnLoad: true
+        };
+    </script>
+
+
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/css/esri.css">
+    <script src="https://js.arcgis.com/3.23/"></script>
+
+    <!--css-->
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    <style type="text/css">
+        html, body, #mapdiv {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            border-color: white;
+            border-width: 1px;
+            padding: 0px;
+            position: relative;
+            /*background-color: #000000;*/
+            background-color: #fff;
+            overflow: hidden;
+        }
+    </style>
+    
+    <!--khai báo thư viện API và Khai báo biến-->
+    <script src="~/js/LoadApi.js"></script>
+    <!--Khai báo hàm khởi tạo init dojo.ready(init)-->
+    <script src="~/js/Start.js"></script>
+
+    <!--Main program-->
+    <script src="~/js/LoadMap.js"></script>
+    <script src="~/js/LayerManager.js"></script>
+    <script src="~/js/Draw.js"></script>
+    <!--Cho tìm kiếm nhanh-->
+    <script src="~/js/Search.js"></script>
+
+    <script>
+        /* Đặt chiều rộng của main menu khi mở */
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "300px";
+        }
+
+        // Đóng main menu bằng cách set chiều rộng về 0
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+
+</head>
+<body class="claro">
+    <div id="mapdiv"></div>
+    <div class="tenApp"></div>
+    <div id="searchnhanh"></div>
+    <div id="HomeButton"></div>
+    <a href="#" onclick="openNav()" class="mainMenubtn" data-toggle="tooltip" title="Menu chức năng">
+        <span class="fa fa-bars fa-lg"></span>
+    </a>
+    <!--mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm CHI TIET mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm-->
+    <!-- Nội dung trong sidenav -->
+    <div id="mySidenav" class="menuChinh">
+        <div id="mainMenu">
+            <div>
+                <div class="user">
+                    <img src="~/images/vodic_logo.png" />&nbsp;&nbsp;&nbsp;Điều tra cơ bản trên biển
+                </div>
+                <a href="#" class="closebtn" onclick="closeNav()"><i class="glyphicon glyphicon-chevron-left"></i></a>
+            </div>
+            <hr style="clear:left; margin:0; border-color:black; border-width: 1px; ">
+            <ul class="nav listMenu">
+                <li><a id="searchPlus" href="#"><i class="fa fa-fw fa-search-plus"></i>&nbsp;&nbsp;&nbsp;Tìm kiếm thông tin</a><hr></li>
+                @*gọi id "SearchMenu"*@
+                <li><a id="layer" href="#"><i class="fa fa-fw fa-globe"></i>&nbsp;&nbsp;&nbsp;Quản lý lớp bản đồ</a><hr></li>
+                @*gọi id LayerMenu*@
+                <li><a id="legend" href="#"><i class="fa fa-fw fa-th-list"></i>&nbsp;&nbsp;&nbsp;Chú giải bản đồ</a><hr></li>
+                @*gọi id LegendMenu*@
+                <li><a id="print" href="#"><i class="fa fa-print"></i>&nbsp;&nbsp;&nbsp;In bản đồ</a><hr></li>
+                @*gọi id PrintMenu*@
+                <li><a id="editAttri" href="#" onclick="ListAllLayerName()"><i class="fa fa-fw fa-pencil"></i>&nbsp;&nbsp;&nbsp;Biên tập thuộc tính</a><hr></li>
+                @*gọi id editMapMenu*@
+                <li><a id="editMap" href="#" onclick="ListAllLayerName_Edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;&nbsp;Biên tập bản đồ</a><hr></li>
+                @*gọi id editMapMenu*@
+                <li><a id="about" href="#"><i class="fa fa-fw fa-question-circle-o"></i>&nbsp;&nbsp;&nbsp;Trợ giúp - Giới thiệu</a></li>
+                @*gọi id aboutMenu*@
+            </ul>
+        </div>
+        <!--ttttttttttttttttttttttttttttttttttttt TÌM KIẾM NÂNG CAO THEO VÙNG tttttttttttttttttttttttttttttttttttttttttttttttttttttttt-->
+        <div id="SearchMenu" class="subMenu">
+            <div class="tieudeSubMenu">
+                <a href="#" onclick="huyve()" class="backbtn"><i id="SearchBack" class="glyphicon glyphicon-chevron-left"></i></a>
+                <a href="#" class="closebtn2" onclick="closeNav()"><i class="glyphicon glyphicon-remove"></i></a>
+                <h5>Tìm kiếm thông tin</h5>
+            </div>
+            <!--tab tìm kiếm nâng cao-->
+            <!--Danh mục các tab-->
+            <ul class="nav nav-tabs" style="border:none;">
+                <li>
+                    <a href="#find" onclick="ListAllLayerName()">Theo Vùng</a>
+                </li>
+                <li class="active">
+                    <a href="#find1" onclick="ListAllLayerName(), huyve()">Thuộc tính</a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tương quan<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#TuongQuan_1" onclick="ListProvince(); ListAllLayerName(); ListAllHuyenName(), huyve()">Đơn vị Hành chính</a>
+                        </li>
+                        <li>
+                            <a href="#TuongQuan_2">Vùng biển</a>
+                        </li>
+                        <li>
+                            <a href="#TuongQuan_3">Khoảng cách</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!--Nội dung các tab-->
+            <div class="noidungSubMenu subSearch" style="height: calc(100% - 64px);">
+                <div class="tab-content">
+                    <!--P/a tìm theo vùng tự định nghĩa-->
+                    <div id="find" class="tab-pane fade" style="padding: 5px">
+                        <p>
+                            - Chọn lớp bản đồ cần tìm thông tin;
+                            <br />- Vẽ vùng cần tìm kiếm trên bản đồ để có kết quả mong muốn.
+                        </p>
+                        <p>
+                            Chọn Lớp bản đồ:
+                            <select id="DsLayer_find" onchange="SetLayerProperty_find(), VeVungChon()" class="form-control input-sm"></select>
+                        </p>
+
+                        <p style="padding-left: 5px">
+                            Chọn công cụ thích hợp để vẽ vùng cần tìm kiếm
+                        </p>
+                        <div id="toolDraw">
+                            <button id="Line" data-toggle="tooltip" title="Các đối tượng bị cắt qua sẽ được chọn">Đường thẳng</button>
+                            <button id="Polyline" data-toggle="tooltip" title="Các đối tượng bị cắt qua sẽ được chọn">Đường gấp khúc</button>
+                            <button id="Extent" data-toggle="tooltip" title="Các đối tượng nằm trọn bên trong sẽ được chọn">Chữ nhật.</button>
+                            <button id="Circle" data-toggle="tooltip" title="Các đối tượng nằm trong và bị cắt qua sẽ được chọn">Hình tròn</button>
+                            <button id="Polygon" data-toggle="tooltip" title="Các đối tượng nằm trong và bị cắt qua sẽ được chọn">Gấp khúc Khép kín</button>
+                            <button id="FreehandPolygon" data-toggle="tooltip" title="Các đối tượng nằm trong và bị cắt qua sẽ được chọn">Tự do khép kín</button>
+                        </div>
+                        <p style="padding-top: 10px; text-align:center">
+                            <b>Kết quả</b>
+                        </p>
+                        <div>
+                            <i id="tongsodoituong"></i>
+                            <div class="list-group" id="ketqua_tab0" onclick="chonluaDT()"></div>
+                        </div>
+                    </div><!--fin0, tab 1 Tìm theo Vùng chỉ định-->
+                    <!--p/a Tìm theo giá trị thuộc tính, chọn theo thứ tự đặt sẵn-->
+                    <div id="find1" class="tab-pane fade in active" style="padding: 3px;">
+                        <p>
+                            - Tìm dữ liệu theo giá trị thông tin thuộc tính của đối tượng.
+                            <br />-Tìm bằng cách lựa chọn theo thứ tự các listbox dưới đây để lọc được kết quả mong muốn.
+                        </p>
+                        <p>
+                            Chọn Lớp bản đồ (là các lớp đang hiện):
+                            <select id="DsLayer_find1" onchange="SetLayerProperty_find1()" class="form-control input-sm"></select>
+                        </p>
+                        <p>
+                            Chọn trường dữ liệu:
+                            <select id="DsField" onchange="SetFieldProperty()" class="form-control input-sm"></select>
+                        </p>
+                        <p style="text-align:center">
+                            <i>Mặc định các đối tượng sẽ được tìm kiếm trong toàn bộ lớp bản đồ chọn</i>
+                        </p>
+                        <label class="checkbox-inline">
+                            <input id="phamvi" onchange="SetExtent()" type="checkbox" value="">Chỉ tìm trong vùng bản đồ đang hiển thị
+                        </label>
+                        <p style="padding-top: 10px; text-align:center">
+                            <b>Kết quả</b>
+                        </p>
+                        <select multiple id="DsObject" onchange="SetObjectProperty()" style="width:100%; height:241px;"></select>
+                        <!--SetObjectProperty in LayerManager-->
+                    </div> <!--fin1, tab 2 Tìm theo giá trị-->
+                    <!--p/a tìm theo tương quan, chọn theo đặt sẵn và có bổ sung y/c từ người dùng-->
+                    <div id="TuongQuan_1" class="tab-pane fade" style="padding: 10px;">
+                        <p>
+                            - Tìm dữ liệu theo tương quan không gian Đơn vị hành chính của các đối tượng.
+                        </p>
+                        <!--Tìm theo địa danh hành chính Tỉnh/Huyện/Xã-->
+                        <p>
+                            <b>Tìm theo địa danh hành chính</b>
+                        </p>
+                        <div id="theoHC">
+                            <p>
+                                Chọn Lớp bản đồ:
+                                <select id="DsLayer_TuongQuan_1" onchange="SetLayerProperty_TuongQuan_1()" class="form-control input-sm"></select>
+                            </p>
+                            <p>
+                                Chọn Tỉnh:
+                                <select style="width:180px;float: right" id="DsTinh" onchange="" class="form-control input-sm"></select>
+                            </p>
+                            <br />
+                            <p>
+                                Chọn Huyện:
+                                <select style="width:180px;float: right" id="DsHuyen" onchange="SetChangeXa()" class="form-control input-sm"></select>
+                            </p>
+                            <br />
+                            <p>
+                                Chọn Xã:
+                                <select style="width:180px; float: right" id="DsXa" onchange="" class="form-control input-sm"></select>
+                            </p>
+                        </div>
+                        <p style="padding-top: 10px; text-align:center">
+                            <b>Kết quả</b>
+                        </p>
+                    </div>
+                    <!--Hết TuongQuan_1, Tìm theo tương quan 1-->
+                    @* Tương quan về vùng biển *@
+                    <div id="TuongQuan_2" class="tab-pane fade" style="padding: 10px;">
+                        <p>
+                            - Tìm dữ liệu theo tương quan không vùng biển của các đối tượng.
+                        </p>
+                    </div>
+                    @* Hết Tương quan về vùng biển *@
+
+                    @* Tương quan về khoảng cách *@
+                    <div id="TuongQuan_3" class="tab-pane fade" style="padding: 10px;">
+                        <p>
+                            - Tìm dữ liệu theo tương quan về khoảng cách của các đối tượng.
+                        </p>
+                    </div>
+                    @* Hết Tương quan về khoảng cách *@
+                </div>
+            </div>
+            <!--Hết Nội dung các tab-->
+        </div>
+        <!--ttttttttttttttttttttttttttttttttttttt END SEARCH PLUS tttttttttttttttttttttttttttttttttttttttttttttttttttttttttt-->
+        <!--//////////////////////menu quản lý các lớp bản đồ/////////////////////////////////////
+        phím back sẽ gọi hàm LoadMapChon() vẽ lại các list layer trong các listbox-->
+        <div id="LayerMenu" class="subMenu">
+            <div class="tieudeSubMenu">
+                <a href="#" onclick="LoadMapChon()" class="backbtn"><i id="LayerBack" class="glyphicon glyphicon-chevron-left"></i></a>
+                <a href="#" class="closebtn2" onclick="closeNav()"><i class="glyphicon glyphicon-remove"></i></a>
+                <h5>Quản lý lớp bản đồ</h5>
+            </div>
+            <div class="noidungSubMenu">
+                <!--id LayerPanel_mt được gọi để nạp danh mục các layer tương ứng trong LayerManager.js-->
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-flask" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Môi trường</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_mt"></p>
+                </div>
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-paw" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Đa dạng Sinh học</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_sinhvat"></p>
+                </div>
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-map-signs" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Tài nguyên vị thế</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_vithe"></p>
+                </div>
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-map-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Địa hình đáy biển</button>
+                <div class="panelLayer">
+                    <p>Các lớp dữ liệu bản đồ địa hình đáy biển.</p>
+                    <p id="LayerPanel_dhdb"> </p>
+                </div>
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-ravelry" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Địa chất khoáng sản biển</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_dcks"></p>
+                </div>
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-thermometer-three-quarters" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Khí tượng thủy văn biển</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_kttv"> </p>
+                </div>
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-fire" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Dầu khí</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_khac"></p>
+                </div>
+
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-tree" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Tài nguyên đất</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_dat"></p>
+                </div>
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-tint" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Tài nguyên nước</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_nuoc"></p>
+                </div>
+
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-space-shuttle" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Viễn thám</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_vt"></p>
+                </div>
+
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-puzzle-piece" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Nền hành chính</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_basemap"></p>
+                </div>
+                @*---------------------------------------------------*@
+                <button class="groupLayer">&nbsp;&nbsp;<i class="fa fa-anchor" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Nền biển</button>
+                <div class="panelLayer">
+                    <p id="LayerPanel_Seabasemap"></p>
+                </div>
+                @*---------------------------------------------------*@
+            </div>
+        </div>
+        <!--//////////////////////END quản lý các lớp bản đồ/////////////////////////////////////////-->
+        <!--=======================chú giải bản đồ=====================================================-->
+        <div id="LegendMenu" class="subMenu">
+            <div class="tieudeSubMenu">
+                <a href="#" class="backbtn"><i id="LegendBack" class="glyphicon glyphicon-chevron-left"></i></a>
+                <a href="#" class="closebtn2" onclick="closeNav()"><i class="glyphicon glyphicon-remove"></i></a>
+                <h5>Chú giải bản đồ</h5>
+            </div>
+            <div class="noidungSubMenu" id="legendDiv"></div>
+        </div>
+        <!--=======================END chú giải bản đồ=====================================================-->
+
+        <!--hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh MENU IN ẤN BẢN ĐỒ hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh-->
+        <div id="PrintMenu" class="subMenu">
+            <div class="tieudeSubMenu">
+                <a href="#" class="backbtn"><i id="queryMapBack" class="glyphicon glyphicon-chevron-left"></i></a>
+                <a href="#" class="closebtn2" onclick="closeNav()"><i class="glyphicon glyphicon-remove"></i></a>
+                <h5>In bản đồ </h5>
+            </div>
+            <div class="noidungSubMenu" id="SubQueryMap">
+            </div>
+        </div>
+        <!--hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh END MENU IN ẤN BẢN ĐỒ hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh-->
+
+        <!------------------------- BIÊN TẬP THUỘC TÍNH ---------------------------------------------------------->
+        <div id="editAttriMenu" class="subMenu">
+            <div class="tieudeSubMenu">
+                <a href="#" class="backbtn"><i id="editAttriBack" class="glyphicon glyphicon-chevron-left"></i></a>
+                <a href="#" class="closebtn2" onclick="closeNav()"><i class="glyphicon glyphicon-remove"></i></a>
+                <h5> Biên tập thuộc tính</h5>
+            </div>
+            <div class="noidungSubMenu" id="SubEditAttri">
+                <p>
+                    Chọn Lớp của đối tượng:
+                    <select id="DsLayer_edit_attr" onchange="SetLayerProperty_edit(), loadTable()" class="form-control input-sm"></select>
+                </p>
+                <p>
+                    Việc chọn đối tượng sẽ đồng bộ với bản đồ, nhấn vào ô thuộc tính cần để sửa
+                    <br>Nhấn quay lại
+                    <b> < </b> sẽ hủy việc sửa thuộc tính
+                </p>
+                <div id="TableEdit"></div>
+            </div>
+        </div>
+
+        <!-------------------------------  END EDIT ATTRIBUTE ------------------------------------------------------>
+
+        <!--bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-- BIÊN TẬP BẢN ĐỒ --bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-->
+        <div id="editMapMenu" class="subMenu">
+            <div class="tieudeSubMenu">
+                <a href="#" class="backbtn"><i id="editMapBack" class="glyphicon glyphicon-chevron-left"></i></a>
+                <a href="#" class="closebtn2" onclick="closeNav()"><i class="glyphicon glyphicon-remove"></i></a>
+                <h5> Biên tập bản đồ</h5>
+            </div>
+            <div class="noidungSubMenu" id="SubEditMap">
+                <p>
+                    -Chọn lớp bản đồ sẽ biên tập, mỗi lần biên tập một lớp và thực hiện được nhiều lần.
+                    <br>-Nhấn
+                    <b> quay lại  < </b> sẽ hủy việc chỉnh sửa bản đồ
+                    <select id="DsLayer_edit_map" onchange="initEditor()" class="form-control input-sm"></select>
+                </p>
+                <button type="button" disabled id="startEdit_btn" onclick="initEditor()" data-toggle="tooltip" title="Khởi động quá trình biên tập">Bắt đầu biên tập</button>
+                <!--initEditor trong Draw.js-->
+                <div id="vungEdit">
+                    <div id="editorDiv"></div>
+                    <div id="templateDiv"></div>
+                </div>
+                <p>
+                    <b><i>Nên chọn hiển thị các lớp hợp lý trước khi thực hiện biên tập.</i></b>
+                    <br />-Nhấn 1 lần để chọn đối tượng vẽ, nhấn lại để bỏ chọn
+                    <br />-Khi nhập thông tin thuộc tính cho đối tượng mới chỉ cần đóng hộp thoại lại, chương trình sẽ tự lưu kết quả.
+                    <br />-Nhấn chuột trái lần 1 để chọn toàn bộ đối tượng với 9 điểm khống chế, nhấn lần 2 để hiện các đỉnh tạo thành đối tượng.
+                    <br />-Với 9 điểm khống chế có thể thực hiện việc di chuyển, kéo dãn, xoay đối tượng.
+                    <br />-Với các đỉnh tạo thành đối tượng có thể di chuyển, thêm mới hoặc xóa từng đỉnh; Thêm mới bằng cách di chuyển các điểm trung gian nằm giữa 2 đỉnh; Xóa bằng cách nhấn chuột phải vào đỉnh muốn xóa.
+                    <br />-Nhấn ra ngoài đối tượng để kết thúc biên tập và lưu đối tượng.
+                    <br />-Số lần có thể 'Hoàn tác' (undo) là 10.
+
+                </p>
+            </div>
+        </div>
+        <!--bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb END EDIT MAP bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-->
+
+      
+        <!--*********************************** VỀ PHẦN MỀM *************************************************-->
+        <div id="aboutMenu" class="subMenu">
+            <div class="tieudeSubMenu">
+                <a href="#" class="backbtn"><i id="aboutBack" class="glyphicon glyphicon-chevron-left"></i></a>
+                <a href="#" class="closebtn2" onclick="closeNav()"><i class="glyphicon glyphicon-remove"></i></a>
+                <h5>Trợ giúp - Giới thiệu</h5>
+            </div>
+            <!--Load text vào từ Start.js, function div_about2()-->
+            <div id="test1" class="noidungSubMenu">
+            </div>
+        </div>
+        <!--************************************* END ABOUT **************************************************-->
+    </div> <!--HẾT MENU CHÍNH-->
+</body>
+</html>
