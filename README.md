@@ -1,2 +1,2 @@
 # seadb
-Application for manager seadb in provinces
+Application for manager data investigation on sea in vodic
